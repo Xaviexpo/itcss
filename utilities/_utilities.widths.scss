@@ -1,0 +1,91 @@
+/* ==========================================================================
+   #WIDTHS
+   ========================================================================== */
+
+
+// Columns
+
+$u-widths__fractions: 1 2 3 4 5 !default;
+
+
+// A mixin to spit out our width classes. Pass in the columns we want the widths
+// to have, and an optional suffix for responsive widths. E.g. to create thirds
+// and quarters for a small breakpoint:
+//
+// @include widths(3 4, -sm);
+
+@mixin t-widths($columns, $breakpoint: null) {
+
+  // Loop through the number of columns for each denominator of our fractions.
+  @each $_u-denominator in $columns {
+
+    // Begin creating a numerator for our fraction up until we hit the
+    // denominator.
+    @for $_u-numerator from 1 through $_u-denominator {
+
+      // Build a class in the format `.u-3/4[@<breakpoint>]`.
+      .u-#{$_u-numerator}#{$s-global__widths-delimiter}#{$_u-denominator}#{$breakpoint} {
+        width: ($_u-numerator / $_u-denominator) * 100% !important;
+      }
+
+      /**
+       * 1. Reset any leftover or conflicting `left`/`right` values.
+       */
+
+      // Build a class in the format `.u-push-1/2[@<breakpoint>]`.
+      .u-push-#{$_u-numerator}#{$s-global__widths-delimiter}#{$_u-denominator}#{$breakpoint} {
+        position: relative !important;
+        right: auto !important; /* [1] */
+        left: ($_u-numerator / $_u-denominator) * 100% !important;
+      }
+
+      // Build a class in the format `.u-pull-5/6[@<breakpoint>]`.
+      .u-pull-#{$_u-numerator}#{$s-global__widths-delimiter}#{$_u-denominator}#{$breakpoint} {
+        position: relative !important;
+        right: ($_u-numerator / $_u-denominator) * 100% !important;
+        left: auto !important; /* [1] */
+      }
+
+    }
+
+  }
+
+}
+
+
+
+
+/**
+ * A series of width helper classes that you can use to size things like grid
+ * systems. Classes take a fraction-like format (e.g. `.u-2/3`). Use these in
+ * your markup:
+ *
+ * <div class="u-7/12">
+ *
+ * The following will generate widths helper classes based on the fractions
+ * defined in the `$u-widths__fractions` list.
+ */
+
+@include t-widths($u-widths__fractions);
+
+
+
+
+/**
+ * If we’re using Sass-MQ, automatically generate grid system(s) for each of our
+ * defined breakpoints, and give them a Responsive Suffix, e.g.:
+ *
+ * <div class="u-3/12@mobile">
+ */
+
+@if (variable-exists(mq-breakpoints)) {
+
+  @each $_u-bp__name, $_u-bp__value in $mq-breakpoints {
+
+    @include mq($from: $_u-bp__name) {
+      @include t-widths($u-widths__fractions, #{$s-global__widths-breakpoint-separator}#{$_u-bp__name});
+    }
+
+  }
+
+}

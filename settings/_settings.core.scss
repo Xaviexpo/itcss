@@ -1,0 +1,67 @@
+///* ========================================================================
+//   #CORE
+//
+
+// Font size and vertical rhythm spacing
+
+$s-global__font-size:   16px !default;
+$s-global__line-height: 24px !default;
+$s-global__spacing-unit: round($s-global__line-height) !default;
+
+$s-global__spacing-unit-factor--tiny:  .25 !default;
+$s-global__spacing-unit-factor--small: .5 !default;
+$s-global__spacing-unit-factor--large: 2 !default;
+$s-global__spacing-unit-factor--huge:  4 !default;
+
+$s-global__spacing-unit--none:  0 !default;
+$s-global__spacing-unit--tiny:  round($s-global__spacing-unit * $s-global__spacing-unit-factor--tiny) !default;
+$s-global__spacing-unit--small: round($s-global__spacing-unit * $s-global__spacing-unit-factor--small) !default;
+$s-global__spacing-unit--large: round($s-global__spacing-unit * $s-global__spacing-unit-factor--large) !default;
+$s-global__spacing-unit--huge:  round($s-global__spacing-unit * $s-global__spacing-unit-factor--huge) !default;
+
+
+// Spaces map
+
+$s-global__spaces: (
+        "none":  $s-global__spacing-unit--none,
+        "tiny":  $s-global__spacing-unit--tiny,
+        "small": $s-global__spacing-unit--small,
+        "large": $s-global__spacing-unit--large,
+        "huge":  $s-global__spacing-unit--huge
+) !default;
+
+
+//Safe checks. Do not modify
+
+@each $_s-font-globals in $s-global__font-size $s-global__line-height {
+
+  @if (type-of($_s-font-globals) == number) {
+
+    @if (unit($_s-font-globals) != "px") {
+      @error "`#{$_s-font-globals}` needs to be a pixel value.";
+    }
+
+  } @else {
+    @error "`#{$_s-font-globals}` needs to be a number.";
+  }
+
+}
+
+@each $_space__name, $_space__value in $s-global__spaces {
+
+  @if (type-of($_space__value) == number) {
+
+    @if ($_space__name != "none") {
+
+      @if (unit($_space__value) != "px") {
+        @error "$f-spaces: `#{$_space__name}` needs to be a pixel value.";
+      }
+    }
+  } @else {
+    @error "$f-spaces: `#{$_space__name}` needs to be a number.";
+  }
+}
+
+//Delimiters
+$s-global__widths-breakpoint-separator: \@ !default;
+$s-global__widths-delimiter: \/ !default;

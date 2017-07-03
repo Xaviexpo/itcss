@@ -1,0 +1,49 @@
+/* ==========================================================================
+   #WRAPPER
+*/
+
+/**
+ * Page-level constraining and wrapping elements.
+ */
+
+$o-wrapper__width: 1200px !default;
+
+.o-wrapper {
+  @include t-clearfix();
+  padding-right: $s-global__spacing-unit;
+  padding-left:  $s-global__spacing-unit;
+  margin-right: auto;
+  margin-left:  auto;
+  max-width: $o-wrapper__width;
+}
+
+//Safe check. Do not modify
+/* stylelint-disable */
+@if (type-of($o-wrapper__width) != number) {
+  @error "`#{$o-wrapper__width}` needs to be a number."
+}
+/* stylelint-enable */
+
+
+/* Size variants.
+   ========================================================================== */
+
+.o-wrapper--tiny {
+  padding-right: $s-global__spacing-unit--tiny;
+  padding-left:  $s-global__spacing-unit--tiny;
+}
+
+.o-wrapper--small {
+  padding-right: $s-global__spacing-unit--small;
+  padding-left:  $s-global__spacing-unit--small;
+}
+
+.o-wrapper--large {
+  padding-right: $s-global__spacing-unit--large;
+  padding-left:  $s-global__spacing-unit--large;
+}
+
+.o-wrapper--huge {
+  padding-right: $s-global__spacing-unit--huge;
+  padding-left:  $s-global__spacing-unit--huge;
+}
